@@ -10,31 +10,31 @@ public class AudioManager : MonoBehaviour
     private AudioClip _powerUPSound;
     [SerializeField]
     private AudioClip _explosionSound;
-
-    private AudioSource _audioSource;
+    [SerializeField]
+    private AudioClip _backgroundMusic;
+    [SerializeField]
+    private AudioSource _audioSourceSFX;
+    [SerializeField]
+    private AudioSource _audioSourceBG;
 
     void Start()
     {
-        _audioSource = GetComponent<AudioSource>();
-
-        if (_audioSource == null)
-        {
-            Debug.LogError("Needs an Audio Source");
-        }
+        _audioSourceBG.clip = _backgroundMusic;
+        _audioSourceBG.Play();
     }
 
     public void LaserSound()
     {
-        _audioSource.PlayOneShot(_laserSound);
+        _audioSourceSFX.PlayOneShot(_laserSound);
     }
 
     public void PowerUPSound()
     {
-        _audioSource.PlayOneShot(_powerUPSound);
+        _audioSourceSFX.PlayOneShot(_powerUPSound);
     }
 
     public void ExplosionSound()
     {
-        _audioSource.PlayOneShot(_explosionSound);
+        _audioSourceSFX.PlayOneShot(_explosionSound);
     }
 }

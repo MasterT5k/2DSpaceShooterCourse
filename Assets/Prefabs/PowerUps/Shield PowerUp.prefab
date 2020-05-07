@@ -136,7 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 3
   _offScreenDistance: -8
-  powerUpType: 2
+  _powerUpType: 2
 --- !u!95 &3325119617710570806
 Animator:
   serializedVersion: 3

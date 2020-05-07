@@ -18,14 +18,10 @@ public class Asteroid : MonoBehaviour
         _audioManager = GameObject.Find("Audio Manager").GetComponent<AudioManager>();
 
         if (_spawnManager == null)
-        {
             Debug.LogError("Spawn Manager is NULL.");
-        }
 
         if (_audioManager == null)
-        {
             Debug.LogError("Audio Manager is NULL");
-        }
     }
 
     void Update()

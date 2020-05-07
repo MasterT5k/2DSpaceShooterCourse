@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6432911601969281340}
   m_Layer: 0
   m_Name: Enemy_Lasers
-  m_TagString: Untagged
+  m_TagString: LaserEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43,6 +43,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Laser_L
+      objectReference: {fileID: 0}
+    - target: {fileID: 201146639621999661, guid: c0cf620bd010e5f45940853d65e38b48,
+        type: 3}
+      propertyPath: m_TagString
+      value: LaserEnemy
       objectReference: {fileID: 0}
     - target: {fileID: 4982170753604326755, guid: c0cf620bd010e5f45940853d65e38b48,
         type: 3}
@@ -133,6 +138,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Laser_R
+      objectReference: {fileID: 0}
+    - target: {fileID: 201146639621999661, guid: c0cf620bd010e5f45940853d65e38b48,
+        type: 3}
+      propertyPath: m_TagString
+      value: LaserEnemy
       objectReference: {fileID: 0}
     - target: {fileID: 4982170753604326755, guid: c0cf620bd010e5f45940853d65e38b48,
         type: 3}

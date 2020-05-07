@@ -9,24 +9,25 @@ public class PowerUp : MonoBehaviour
     [SerializeField]
     private float _offScreenDistance = -8f;
 
-    enum PowerUpType
+    private enum PowerUpType
     {
         tripleShot,
         speed,
-        shield
+        shield,
+        ammo,
+        health,
+        spreadShot
     }
 
     [SerializeField]
-    PowerUpType powerUpType = PowerUpType.tripleShot;
+    private PowerUpType _powerUpType = PowerUpType.tripleShot;
 
     void Update()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
 
         if (transform.position.y < _offScreenDistance)
-        {
             Destroy(this.gameObject);
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -35,7 +36,7 @@ public class PowerUp : MonoBehaviour
         {
             Player player = other.transform.GetComponent<Player>();
 
-            switch (powerUpType)
+            switch (_powerUpType)
             {
                 case PowerUpType.tripleShot:
                     player.TripleShotActive();
@@ -45,6 +46,15 @@ public class PowerUp : MonoBehaviour
                     break;
                 case PowerUpType.shield:
                     player.ShieldActive();
+                    break;
+                case PowerUpType.ammo:
+                    player.AmmoPickup();
+                    break;
+                case PowerUpType.health:
+                    player.LivesChange(1);
+                    break;
+                case PowerUpType.spreadShot:
+                    player.SpreadShotActive();
                     break;
                 default:
                     Debug.Log("Default Value");

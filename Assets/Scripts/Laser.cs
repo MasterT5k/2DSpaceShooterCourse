@@ -7,8 +7,9 @@ public class Laser : MonoBehaviour
     [SerializeField]
     private float _speed = 8f;
     [SerializeField]
-    private float _destroyDistance = 8f;
+    private float _xDestroyDistance = 12f;
     [SerializeField]
+    private float _yDestroyDistance = 8f;
     private bool _isEnemyLaser = false;
 
     // Update is called once per frame
@@ -18,7 +19,7 @@ public class Laser : MonoBehaviour
         {
             MoveUp();
         }
-        else
+        else if(_isEnemyLaser == true)
         {
             MoveDown();
         }
@@ -26,9 +27,21 @@ public class Laser : MonoBehaviour
 
     void MoveUp()
     {
-        transform.Translate(Vector3.up * _speed * Time.deltaTime);
+        transform.Translate(Vector3.up * _speed * Time.deltaTime, Space.Self);
 
-        if (transform.position.y > _destroyDistance)
+        if (transform.position.y > _yDestroyDistance)
+        {
+            if (this.gameObject.transform.parent != null)
+            {
+                Destroy(this.gameObject.transform.parent.gameObject);
+            }
+            else
+            {
+                Destroy(this.gameObject);
+            }
+        }
+
+        if (transform.position.x > _xDestroyDistance || transform.position.x < -_xDestroyDistance)
         {
             if (this.gameObject.transform.parent != null)
             {
@@ -45,7 +58,7 @@ public class Laser : MonoBehaviour
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
 
-        if (transform.position.y < -_destroyDistance)
+        if (transform.position.y < -_yDestroyDistance)
         {
             if (this.gameObject.transform.parent != null)
             {
@@ -70,9 +83,7 @@ public class Laser : MonoBehaviour
             Player player = other.transform.GetComponent<Player>();
 
             if (player != null)
-            {
                 player.Damage();
-            }
 
             Destroy(this.gameObject);
         }

@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [Header("Movement Settings")]
     [SerializeField]
     private float _speed = 4f;
     [SerializeField]
     private float _horizontalLimits = 8;
     [SerializeField]
     private float _verticalLimits = -8f;
-    [SerializeField]
-    private int _points = 10;
-    [SerializeField]
-    private GameObject _thrusters;
+
+    [Header("Weapon Settings")]
     [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
@@ -23,6 +22,13 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float _maxFireRate = 7f;
     private float _canFire = -1;
+
+    [Header("Destroy Settings")]
+    [SerializeField]
+    private int _points = 10;
+    [SerializeField]
+    private GameObject _thrusters;
+    private bool _isDead = false;
 
     private Player _player;
     private AudioManager _audioManager;
@@ -35,29 +41,21 @@ public class Enemy : MonoBehaviour
         _animator = GetComponent<Animator>();
         
         if (_player == null)
-        {
             Debug.LogError("Player is NULL.");
-        }
 
         if (_audioManager == null)
-        {
             Debug.LogError("Audio Manager is NULL");
-        }
 
         if (_animator == null)
-        {
             Debug.LogError("Needs Animator!");
-        }
     }
 
     void Update()
     {
         CalculateMovement();
 
-        if (Time.time > _canFire)
-        {
+        if (Time.time > _canFire && _isDead == false)
             FireLaser();
-        }
     }
 
     void CalculateMovement()
@@ -67,9 +65,7 @@ public class Enemy : MonoBehaviour
         float randomX = Random.Range(-_horizontalLimits, _horizontalLimits);
 
         if (transform.position.y < _verticalLimits)
-        {
             transform.position = new Vector3(randomX, -_verticalLimits, 0);
-        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -85,9 +81,10 @@ public class Enemy : MonoBehaviour
             }
 
             _animator.SetTrigger("OnEnemyDeath");
+            _isDead = true;
 
             Destroy(GetComponent<Collider2D>());
-            Destroy(_thrusters, 0.1f);
+            Destroy(_thrusters);
             Destroy(this.gameObject, 2.3f);
         }
 
@@ -95,9 +92,11 @@ public class Enemy : MonoBehaviour
         {
             _player.ScoreChange(_points);
             _animator.SetTrigger("OnEnemyDeath");
+            _isDead = true;
 
             Destroy(GetComponent<Collider2D>());
             Destroy(other.gameObject);
+            Destroy(_thrusters);
             Destroy(this.gameObject, 2.3f);
         }
     }

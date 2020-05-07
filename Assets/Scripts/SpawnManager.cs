@@ -9,13 +9,15 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject _enemyContainer;
     [SerializeField]
-    private float _spawnDelay = 5f;
+    private float _enemySpawnDelay = 5f;
+
     [SerializeField]
-    private GameObject[] powerUps;
-    [SerializeField]
-    private float _minSpawnPowerUpDelay = 3f;
+    private GameObject[] _powerUps;
     [SerializeField]
     private float _maxSpawnPowerUpDelay = 7f;
+    [SerializeField]
+    private float _minSpawnPowerUpDelay = 3f;
+
     [SerializeField]
     private float _horizontalRange = 8;
     [SerializeField]
@@ -25,7 +27,7 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnEnemyRoutine()
     {
-        yield return new WaitForSeconds(_spawnDelay);
+        yield return new WaitForSeconds(_enemySpawnDelay);
 
         while (_stopSpawning == false)
         {
@@ -35,24 +37,24 @@ public class SpawnManager : MonoBehaviour
             GameObject newEnemy = Instantiate(_enemyPrefab, posToSpawn, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
 
-            yield return new WaitForSeconds(_spawnDelay);
+            yield return new WaitForSeconds(_enemySpawnDelay);
         }
     }
 
     IEnumerator SpawnPowerUpRoutine()
     {
-        yield return new WaitForSeconds(_spawnDelay);
+        yield return new WaitForSeconds(_enemySpawnDelay);
 
         while (_stopSpawning == false)
         {
             float spawnDelay = Random.Range(_minSpawnPowerUpDelay, _maxSpawnPowerUpDelay);
-            int randomPowerUp = Random.Range(0, 3);
+            int randomPowerUp = Random.Range(0, _powerUps.Length);
             float randomX = Random.Range(-_horizontalRange, _horizontalRange);
             Vector3 posToSpawn = new Vector3(randomX, _verticalStart, 0);
             
             yield return new WaitForSeconds(spawnDelay);
 
-            Instantiate(powerUps[randomPowerUp], posToSpawn, Quaternion.identity);
+            Instantiate(_powerUps[randomPowerUp], posToSpawn, Quaternion.identity);
         }
     }
 
